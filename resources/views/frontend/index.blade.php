@@ -1,0 +1,11 @@
+<x-frontend.web-layout>
+    @include('frontend.partials.main.banner')
+    @include('frontend.partials.main.courses')
+    @include('frontend.partials.main.intro-video')
+    @include('frontend.partials.main.testimonial')
+    @include('frontend.partials.main.process_section')
+    @include('frontend.partials.main.calltoaction')
+    @include('frontend.partials.main.brands')
+    @include('frontend.partials.main.blog')
+    @include('frontend.partials.main.newslatter')
+</x-frontend.web-layout>
