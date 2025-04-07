@@ -36,9 +36,14 @@
                                         <li><a href="#!">{{ $post->category->name }}</a></li>
                                     </ul>
                                     <div class="item_image">
-                                        <a href="blog_details.html" data-cursor-text="View">
-                                            <img src="{{ $post->images->first()->file_path }}"
-                                                alt="Collab – Online Learning Platform">
+                                        <a href="{{ route('frontend.post.details', $post->id) }}"
+                                            data-cursor-text="View">
+                                            @if ($post->images->first())
+                                                <img src="{{ $post->images->first()->file_path }}"
+                                            @else
+                                                <img src="{{ asset('collab/assets/images/blog/blog_small_img_3.jpg') }}"
+                                                    alt="Collab – Online Learning Platform">
+                                            @endif
                                         </a>
                                     </div>
                                     <div class="item_content">

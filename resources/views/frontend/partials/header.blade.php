@@ -3,8 +3,8 @@
         <div class="row align-items-center">
             <div class="col col-lg-3 col-5">
                 <div class="site_logo">
-                    <a class="site_link" href="index.html">
-                        <img src="collab/assets/images/logo/site_logo.svg"
+                    <a class="site_link" href="{{ route('frontend.index') }}">
+                        <img src="{{ asset('collab/assets/images/logo/site_logo.svg') }}"
                             alt="Collab - Online Learning Platform"><span>Open9</span>
                     </a>
                 </div>

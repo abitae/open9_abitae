@@ -22,8 +22,9 @@
         </div>
 
         <div>
-            <flux:label for="content">Content</flux:label>
-            <flux:textarea wire:model="content" id="content" rows="10"></flux:textarea>
+
+            <x-mary-markdown wire:model="content" label="content" 
+            disk="public" folder="media/posts/images"/>          
             @error('content')
                 <flux:error>{{ $message }}</flux:error>
             @enderror
