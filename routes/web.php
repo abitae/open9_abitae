@@ -3,6 +3,7 @@
 use App\Http\Controllers\Frontend\BlogController;
 use App\Http\Controllers\Frontend\CourseController;
 use App\Http\Controllers\Frontend\HomeController;
+use App\Livewire\Blog\CategoryBlog;
 use App\Livewire\Blog\PostForm;
 use App\Livewire\Blog\PostManagement;
 use App\Livewire\Settings\Appearance;
@@ -34,5 +35,6 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/admin/blog', PostManagement::class)->name('admin.blog');
 Route::get('/admin/blog/form/{id?}', PostForm::class)->name('admin.blog.form');
 Route::get('/blog/{post}', [BlogController::class, 'postDetails'])->name('frontend.post.details');
+Route::get('/admin/blog/categories', CategoryBlog::class)->name('admin.blog.categories');
 
 require __DIR__ . '/auth.php';
