@@ -21,8 +21,8 @@ class PostForm extends Component
     public $status = 'draft';
     public $category_id = '';
     public $selectedTags = [];
-    public $images = [];
-    public $videos = [];
+    public $image = null;
+    public $video = null;
     public $isEditing = false;
 
     public function mount($id = null)
@@ -49,8 +49,8 @@ class PostForm extends Component
             'status' => 'required|in:draft,published,archived',
             'category_id' => 'required|exists:categories,id',
             'selectedTags' => 'array',
-            'images.*' => 'nullable|image|max:10240', // 10MB max
-            'videos.*' => 'nullable|mimes:mp4,mov,avi|max:51200', // 50MB max
+            'image' => 'nullable|image|max:10240', // 10MB max
+            'video' => 'nullable|mimes:mp4,mov,avi|max:51200', // 50MB max
         ];
         $messages = [
             'title.required' => 'Title is required',
@@ -60,10 +60,10 @@ class PostForm extends Component
             'category_id.required' => 'Category is required',
             'category_id.exists' => 'Invalid category selected',
             'selectedTags.array' => 'Invalid tags selected',
-            'images.*.image' => 'Invalid image file',
-            'images.*.max' => 'Image file size must be less than 10MB',
-            'videos.*.mimes' => 'Invalid video file type',
-            'videos.*.max' => 'Video file size must be less than 50MB',
+            'image.image' => 'Invalid image file',
+            'image.max' => 'Image file size must be less than 10MB',
+            'video.mimes' => 'Invalid video file type',
+            'video.max' => 'Video file size must be less than 50MB',
         ];
         $this->validate($rules, $messages);
 
@@ -86,30 +86,26 @@ class PostForm extends Component
         // Handle tags
         $this->post->tags()->sync($this->selectedTags);
 
-        // Handle image uploads
-        if ($this->images) {
-            foreach ($this->images as $file) {
-                $path = $file->store('media/posts/' . $this->post->id . '/images', 'public');
-                $this->post->images()->create([
-                    'file_name' => $file->getClientOriginalName(),
-                    'file_path' => $path,
-                    'mime_type' => $file->getMimeType(),
-                    'size' => $file->getSize(),
-                ]);
-            }
+        // Handle image upload
+        if ($this->image) {
+            $path = $this->image->store('media/posts/' . $this->post->id . '/images', 'public');
+            $this->post->images()->create([
+                'file_name' => $this->image->getClientOriginalName(),
+                'file_path' => $path,
+                'mime_type' => $this->image->getMimeType(),
+                'size' => $this->image->getSize(),
+            ]);
         }
 
-        // Handle video uploads
-        if ($this->videos) {
-            foreach ($this->videos as $file) {
-                $path = $file->store('media/posts/' . $this->post->id . '/videos', 'public');
-                $this->post->videos()->create([
-                    'file_name' => $file->getClientOriginalName(),
-                    'file_path' => $path,
-                    'mime_type' => $file->getMimeType(),
-                    'size' => $file->getSize(),
-                ]);
-            }
+        // Handle video upload
+        if ($this->video) {
+            $path = $this->video->store('media/posts/' . $this->post->id . '/videos', 'public');
+            $this->post->videos()->create([
+                'file_name' => $this->video->getClientOriginalName(),
+                'file_path' => $path,
+                'mime_type' => $this->video->getMimeType(),
+                'size' => $this->video->getSize(),
+            ]);
         }
         return redirect()->route('admin.blog');
     }
