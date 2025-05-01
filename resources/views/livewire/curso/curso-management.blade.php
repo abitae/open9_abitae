@@ -1,9 +1,9 @@
 <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
 
     <div class="flex justify-between items-center mb-6">
-        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Blog Posts</h2>
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Gestión de Cursos</h2>
         <flux:button wire:click="redirectToForm()" color="primary">
-            Create Post
+            Crear Curso
         </flux:button>
     </div>
 
@@ -43,8 +43,8 @@
 
     <div class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-            <flux:label for="search" class="text-gray-700 dark:text-gray-300">Buscar por título</flux:label>
-            <flux:input type="text" wire:model.live="search" id="search" placeholder="Ingrese el título..." class="w-full" />
+            <flux:label for="search" class="text-gray-700 dark:text-gray-300">Buscar por nombre</flux:label>
+            <flux:input type="text" wire:model.live="search" id="search" placeholder="Ingrese el nombre del curso..." class="w-full" />
         </div>
 
         <div>
@@ -73,7 +73,7 @@
             <thead class="bg-gray-50 dark:bg-neutral-700">
                 <tr>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                        Título
+                        Nombre
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                         Categoría
@@ -82,7 +82,7 @@
                         Estado
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                        Etiquetas
+                        Nivel
                     </th>
                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                         Acciones
@@ -90,54 +90,50 @@
                 </tr>
             </thead>
             <tbody class="bg-white dark:bg-neutral-800 divide-y divide-gray-200 dark:divide-gray-700">
-                @foreach ($posts as $post)
+                @foreach ($cursos as $curso)
                     <tr class="hover:bg-gray-50 dark:hover:bg-neutral-700 transition-colors duration-150">
                         <td class="px-6 py-4">
                             <div class="text-sm font-medium text-gray-900 dark:text-white">
-                                {{ $post->title }}
+                                {{ $curso->name }}
                             </div>
                             <div class="text-sm text-gray-500 dark:text-gray-400">
-                                {{ Str::limit($post->excerpt, 50) }}
+                                {{ Str::limit($curso->description, 50) }}
                             </div>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="text-sm text-gray-900 dark:text-white">{{ $post->category->name }}</div>
+                            <div class="text-sm text-gray-900 dark:text-white">{{ $curso->category->name }}</div>
                         </td>
                         <td class="px-6 py-4">
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                {{ $post->status === 'published'
+                                {{ $curso->status === 'published'
                                     ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100'
-                                    : ($post->status === 'draft'
+                                    : ($curso->status === 'draft'
                                         ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-100'
                                         : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200') }}">
-                                {{ ucfirst($post->status) }}
+                                {{ ucfirst($curso->status) }}
                             </span>
                         </td>
                         <td class="px-6 py-4">
-                            <div class="flex flex-wrap gap-1">
-                                @foreach ($post->tags as $tag)
-                                    <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
-                                        {{ $tag->name }}
-                                    </span>
-                                @endforeach
-                            </div>
+                            <span class="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100">
+                                {{ $curso->level }}
+                            </span>
                         </td>
                         <td class="px-6 py-4 text-sm font-medium">
                             <div class="flex space-x-2">
-                                @if ($post->status !== 'published')
-                                    <flux:button icon="check" wire:click="publish({{ $post->id }})" color="success" size="sm">
+                                @if ($curso->status !== 'published')
+                                    <flux:button icon="check" wire:click="publish({{ $curso->id }})" color="success" size="sm">
                                     </flux:button>
                                 @else
-                                    <flux:button icon="x-mark" wire:click="publish({{ $post->id }})" color="danger" size="sm">
+                                    <flux:button icon="x-mark" wire:click="publish({{ $curso->id }})" color="danger" size="sm">
                                     </flux:button>
                                 @endif
-                                <flux:button icon="pencil" wire:click="redirectToForm({{ $post->id }})" variant="outline" size="sm">
+                                <flux:button icon="pencil" wire:click="redirectToForm({{ $curso->id }})" variant="outline" size="sm">
                                 </flux:button>
 
-                                <flux:button icon="trash" wire:click="delete({{ $post->id }})" color="danger" size="sm">
+                                <flux:button icon="trash" wire:click="delete({{ $curso->id }})" color="danger" size="sm">
                                 </flux:button>
 
-                                <flux:button icon="chat-bubble-left" wire:click="showComments({{ $post->id }})" color="info" size="sm">
+                                <flux:button icon="academic-cap" wire:click="showLessons({{ $curso->id }})" color="info" size="sm">
                                 </flux:button>
                             </div>
                         </td>
@@ -148,105 +144,70 @@
     </div>
 
     <div class="mt-4">
-        {{ $posts->links() }}
+        {{ $cursos->links() }}
     </div>
 </div>
 
-<!-- Modal de Comentarios -->
-@if($showCommentsModal)
-    <flux:modal wire:model="showCommentsModal" max-width="2xl">
+<!-- Modal de Lecciones -->
+@if($showLessonsModal)
+    <flux:modal wire:model="showLessonsModal" max-width="2xl">
         <div class="p-6">
             <div class="flex justify-between items-center mb-4">
                 <div>
-                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Comentarios de {{ $selectedPost->title }}</h3>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ $selectedPost->comments->count() }} comentarios</p>
+                    <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Lecciones de {{ $selectedCurso->name }}</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ $selectedCurso->lessons->count() }} lecciones</p>
                 </div>
-                <flux:button icon="x-mark" wire:click="closeCommentsModal" variant="ghost" size="sm">
+                <flux:button icon="x-mark" wire:click="closeLessonsModal" variant="ghost" size="sm">
                 </flux:button>
             </div>
 
-            <div class="space-y-4 max-h-[50vh] overflow-y-auto mb-4" wire:poll.5s>
-                @forelse($selectedPost->comments as $comment)
+            <div class="space-y-4 max-h-[50vh] overflow-y-auto mb-4">
+                @forelse($selectedCurso->lessons as $lesson)
                     <div class="bg-gray-50 dark:bg-neutral-700 p-4 rounded-lg">
                         <div class="flex justify-between items-start">
-                            <div class="flex items-center space-x-2">
-                                <div class="w-8 h-8 rounded-full bg-gray-200 dark:bg-neutral-600 flex items-center justify-center">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                        {{ substr($comment->user->name, 0, 1) }}
-                                    </span>
-                                </div>
-                                <div>
-                                    <p class="font-medium text-gray-900 dark:text-white">{{ $comment->user->name }}</p>
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ $comment->created_at->diffForHumans() }}</p>
-                                </div>
+                            <div>
+                                <h4 class="font-medium text-gray-900 dark:text-white">{{ $lesson->title }}</h4>
+                                <p class="text-sm text-gray-500 dark:text-gray-400">{{ $lesson->duration }} minutos</p>
                             </div>
-                            <flux:button wire:click="replyTo({{ $comment->id }})" variant="link" size="sm">
-                                <span class="flex items-center">
-                                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-                                    </svg>
-                                    Responder
-                                </span>
-                            </flux:button>
+                            <div class="flex space-x-2">
+                                <flux:button icon="pencil" wire:click="editLesson({{ $lesson->id }})" variant="outline" size="sm">
+                                </flux:button>
+                                <flux:button icon="trash" wire:click="deleteLesson({{ $lesson->id }})" color="danger" size="sm">
+                                </flux:button>
+                            </div>
                         </div>
-                        <p class="mt-2 text-gray-700 dark:text-gray-300">{{ $comment->content }}</p>
-
-                        @if($comment->replies->count() > 0)
-                            <div class="mt-4 ml-4 space-y-4">
-                                @foreach($comment->replies as $reply)
-                                    <div class="bg-gray-100 dark:bg-neutral-600 p-3 rounded-lg">
-                                        <div class="flex items-center space-x-2">
-                                            <div class="w-6 h-6 rounded-full bg-gray-200 dark:bg-neutral-500 flex items-center justify-center">
-                                                <span class="text-xs font-medium text-gray-700 dark:text-gray-300">
-                                                    {{ substr($reply->user->name, 0, 1) }}
-                                                </span>
-                                            </div>
-                                            <div>
-                                                <p class="font-medium text-gray-900 dark:text-white">{{ $reply->user->name }}</p>
-                                                <p class="text-xs text-gray-500 dark:text-gray-400">{{ $reply->created_at->diffForHumans() }}</p>
-                                            </div>
-                                        </div>
-                                        <p class="mt-2 text-gray-700 dark:text-gray-300">{{ $reply->content }}</p>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endif
+                        <p class="mt-2 text-gray-700 dark:text-gray-300">{{ $lesson->description }}</p>
                     </div>
                 @empty
                     <div class="text-center py-8">
                         <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                         </svg>
-                        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No hay comentarios</h3>
-                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Sé el primero en comentar.</p>
+                        <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-white">No hay lecciones</h3>
+                        <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Agrega la primera lección a este curso.</p>
                     </div>
                 @endforelse
             </div>
 
             <div class="mt-4">
-                @if($replyToComment)
-                    <div class="mb-2 flex items-center justify-between">
-                        <span class="text-sm text-gray-500 dark:text-gray-400">Respondiendo a un comentario</span>
-                        <flux:button wire:click="cancelReply" variant="link" color="danger" size="sm">
-                            Cancelar
-                        </flux:button>
-                    </div>
-                @endif
                 <div class="flex space-x-2">
                     <flux:input
-                        wire:model="newComment"
-                        placeholder="Escribe tu comentario..."
+                        wire:model="newLessonTitle"
+                        placeholder="Título de la lección..."
                         class="flex-1"
-                        wire:keydown.enter="addComment"
-                        x-ref="commentInput"
-                        x-on:focus="$wire.emit('focusCommentInput')"
+                    />
+                    <flux:input
+                        wire:model="newLessonDuration"
+                        type="number"
+                        placeholder="Duración (min)"
+                        class="w-24"
                     />
                     <flux:button
-                        wire:click="addComment"
+                        wire:click="addLesson"
                         color="primary"
                         wire:loading.attr="disabled"
                     >
-                        <span wire:loading.remove>Enviar</span>
+                        <span wire:loading.remove>Agregar</span>
                         <span wire:loading>
                             <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>

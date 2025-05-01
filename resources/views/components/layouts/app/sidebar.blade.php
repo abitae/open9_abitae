@@ -17,6 +17,8 @@
                     <flux:navlist.item icon="home" :href="route('admin.blog')" :current="request()->routeIs('admin.blog')" wire:navigate>{{ __('Blog') }}</flux:navlist.item>
                     <flux:navlist.item icon="home" :href="route('admin.blog.categories')" :current="request()->routeIs('admin.blog.categories')" wire:navigate>{{ __('Categorías') }}</flux:navlist.item>
                     <flux:navlist.item icon="home" :href="route('admin.blog.tags')" :current="request()->routeIs('admin.blog.tags')" wire:navigate>{{ __('Etiquetas') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('admin.cursos')" :current="request()->routeIs('admin.cursos')" wire:navigate>{{ __('Cursos') }}</flux:navlist.item>
+                    <flux:navlist.item icon="home" :href="route('admin.cursos.form')" :current="request()->routeIs('admin.cursos.form')" wire:navigate>{{ __('Nuevo Curso') }}</flux:navlist.item>
                 </flux:navlist.group>
             </flux:navlist>
 

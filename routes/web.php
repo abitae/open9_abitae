@@ -7,6 +7,8 @@ use App\Livewire\Blog\CategoryBlog;
 use App\Livewire\Blog\PostForm;
 use App\Livewire\Blog\PostManagement;
 use App\Livewire\Blog\TagBlog;
+use App\Livewire\Curso\CursoForm;
+use App\Livewire\Curso\CursoManagement;
 use App\Livewire\Settings\Appearance;
 use App\Livewire\Settings\Password;
 use App\Livewire\Settings\Profile;
@@ -31,12 +33,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/profile', Profile::class)->name('settings.profile');
     Route::get('settings/password', Password::class)->name('settings.password');
     Route::get('settings/appearance', Appearance::class)->name('settings.appearance');
+
+
+    Route::get('/admin/blog', PostManagement::class)->name('admin.blog');
+    Route::get('/admin/blog/form/{id?}', PostForm::class)->name('admin.blog.form');
+    Route::get('/blog/{post}', [BlogController::class, 'postDetails'])->name('frontend.post.details');
+    Route::get('/admin/blog/categories', CategoryBlog::class)->name('admin.blog.categories');
+    Route::get('/admin/blog/tags', TagBlog::class)->name('admin.blog.tags');
+
+    Route::get('/admin/cursos', CursoManagement::class)->name('admin.cursos');
+    Route::get('/admin/cursos/form/{id?}', CursoForm::class)->name('admin.cursos.form');
 });
-
-Route::get('/admin/blog', PostManagement::class)->name('admin.blog');
-Route::get('/admin/blog/form/{id?}', PostForm::class)->name('admin.blog.form');
-Route::get('/blog/{post}', [BlogController::class, 'postDetails'])->name('frontend.post.details');
-Route::get('/admin/blog/categories', CategoryBlog::class)->name('admin.blog.categories');
-Route::get('/admin/blog/tags', TagBlog::class)->name('admin.blog.tags');
-
 require __DIR__ . '/auth.php';
