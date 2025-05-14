@@ -17,7 +17,9 @@ return new class extends Migration
             $table->string('status')->default('draft'); // draft, published, archived
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
-            $table->timestamp('published_at')->nullable();
+            $table->string('image_path')->nullable();
+            $table->string('video_path')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

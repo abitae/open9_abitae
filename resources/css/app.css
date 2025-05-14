@@ -125,3 +125,22 @@ select:focus[data-flux-control] {
 .mary-table-pagination button {
     @apply cursor-pointer
 }
+
+.EasyMDEContainer .CodeMirror {
+    @apply bg-base-100 dark:bg-base-100 text-gray-500 dark:text-white
+}
+
+.EasyMDEContainer .CodeMirror {
+    @apply bg-white dark:bg-base-100 text-gray-500 dark:text-white
+}
+
+.EasyMDEContainer .CodeMirror-cursor {
+    @apply border border-b-base-100 bg-base-100
+}
+
+.EasyMDEContainer .editor-toolbar > button:hover, .EasyMDEContainer .editor-toolbar > .active {
+    @apply bg-white dark:bg-base-100 text-blue-500 dark:text-white
+}
+.EasyMDEContainer .editor-toolbar {
+    @apply bg-gray-100 dark:bg-base-100 text-blue-500 dark:text-white
+}

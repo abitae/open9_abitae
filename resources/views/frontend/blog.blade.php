@@ -30,19 +30,20 @@
                 <div class="col col-lg-8">
                     <div class="row">
                         @forelse ($posts as $post)
-                            <div class="col col-lg-6">
+                            <div wire:key="post-{{ $post->id }}" class="col col-lg-6">
                                 <div class="blog_item">
                                     <ul class="item_category_list unordered_list">
                                         <li><a href="#!">{{ $post->category->name }}</a></li>
                                     </ul>
                                     <div class="item_image">
-                                        <a href="{{ route('frontend.post.details', $post->id) }}"
+                                        <a href="{{ route('frontend.post', $post->id) }}"
                                             data-cursor-text="View">
-                                            @if ($post->images->first())
-                                                <img src="{{ $post->images->first()->file_path }}"
+                                            @if ($post->image_path)
+                                                <img src="{{ Storage::url($post->image_path) }}"
+                                                    alt="image">
                                             @else
                                                 <img src="{{ asset('collab/assets/images/blog/blog_small_img_3.jpg') }}"
-                                                    alt="Collab – Online Learning Platform">
+                                                    alt="image">
                                             @endif
                                         </a>
                                     </div>
@@ -54,7 +55,11 @@
                                             <li><a href="#!"><i class="fas fa-calendar-day"></i>
                                                     <span>{{ $post->published_at }}</span></a></li>
                                         </ul>
-                                        <h3 class="item_title"><a href="blog_details.html">{{ $post->title }}</a></h3>
+                                        <h3 class="item_title">
+                                            <a
+                                                href="{{ route('frontend.post', $post->id) }}">{{ $post->title }}</a>
+                                        </h3>
+                                        <p class="item_description">{{ $post->excerpt }}</p>
                                         <ul class="meta_info_list unordered_list">
                                             @forelse ($post->tags as $tag)
                                                 <li>
@@ -68,9 +73,9 @@
                                                 </li>
                                             @endforelse
                                         </ul>
-                                        <a class="btn_unfill" href="blog_details.html">
+                                        <a class="btn_unfill" href="{{ route('frontend.post', $post->id) }}">
                                             <span class="btn_text">
-                                                Leer post</span>
+                                                Leer más</span>
                                             <span class="btn_icon"><i class="fas fa-long-arrow-right"></i>
                                                 <i class="fas fa-long-arrow-right"></i></span>
                                         </a>
@@ -101,7 +106,8 @@
                                         </div>
                                     @empty
                                         <div class="checkbox_item"><input id="checkbox_design" type="checkbox">
-                                            <label for="checkbox_design"><span>No categories</span><span>(0)</span></label>
+                                            <label for="checkbox_design"><span>No
+                                                    categories</span><span>(0)</span></label>
                                         </div>
                                     @endforelse
                                 </div>

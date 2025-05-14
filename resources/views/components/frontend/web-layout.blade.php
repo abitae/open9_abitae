@@ -7,6 +7,7 @@
     <title>Open9</title>
     <link rel="shortcut icon" href="{{ asset('collab/assets/images/logo/favourite_icon_1.svg') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('collab/assets/css/style.css') }}">
+    @stack('styles')
 </head>
 
 <body>
@@ -20,5 +21,5 @@
     </div>
     <script src="{{ asset('collab/assets/js/script.js') }}"></script>
 </body>
-
+@stack('scripts')
 </html>

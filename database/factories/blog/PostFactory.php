@@ -25,30 +25,8 @@ class PostFactory extends Factory
             'status' => fake()->randomElement(['draft', 'published', 'archived']),
             'user_id' => User::factory(),
             'category_id' => Category::factory(),
-            'published_at' => fake()->optional()->dateTimeBetween('-1 year', 'now'),
+            'is_active' => fake()->boolean(),
         ];
     }
 
-    public function configure()
-    {
-        return $this->afterCreating(function (Post $post) {
-            // Attach random tags
-            $tags = Tag::inRandomOrder()->take(rand(1, 3))->get();
-            $post->tags()->attach($tags);
-
-            // Create random number of images
-            if (fake()->boolean(80)) { // 80% chance to have images
-                PostImage::factory()
-                    ->count(rand(1, 5))
-                    ->create(['post_id' => $post->id]);
-            }
-
-            // Create random number of videos
-            if (fake()->boolean(30)) { // 30% chance to have videos
-                PostVideo::factory()
-                    ->count(rand(1, 2))
-                    ->create(['post_id' => $post->id]);
-            }
-        });
-    }
 }

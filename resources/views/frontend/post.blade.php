@@ -3,7 +3,7 @@
         <div class="container">
             <div class="content_wrapper">
                 <div class="row align-items-center">
-                    <div class="col col-lg-8">
+                    <div class="col col-lg-12">
                         <ul class="breadcrumb_nav unordered_list">
                             <li><a href="{{ route('frontend.index') }}">Home</a></li>
                             <li><a href="{{ route('frontend.blog') }}">Blogs</a></li>
@@ -20,32 +20,53 @@
             <div class="row">
                 <div class="col col-lg-8">
                     <div class="details_image">
-                        @if ($post->images->first())
-                            <img src="{{ $post->images->first()->file_path }}" alt="Collab – Online Learning Platform">
+                        @if ($post->image_path)
+                            <img src="{{ Storage::url($post->image_path) }}" alt="image"
+                                style="width: 100%; height: auto;">
                         @else
-                            <img src="{{ asset('collab/assets/images/blog/blog_details_image_1.jpg') }}"
-                                alt="Collab – Online Learning Platform">
+                            <img src="{{ asset('collab/assets/images/blog/blog_details_image_1.jpg') }}" alt="image"
+                                style="width: 100%; height: auto;">
+                        @endif
+                        @if ($post->video_path)
+                            <div class="video-container">
+                                <video id="player" playsinline controls preload="metadata"
+                                    class="video-js vjs-default-skin vjs-big-play-centered">
+                                    <source src="{{ Storage::url($post->video_path) }}" type="video/mp4" />
+                                    <source src="{{ Storage::url($post->video_path) }}" type="video/webm" />
+                                    <source src="{{ Storage::url($post->video_path) }}" type="video/ogg" />
+                                    <p class="vjs-no-js">
+                                        Para ver este video, por favor habilita JavaScript y considera actualizar a un
+                                        navegador web que
+                                        <a href="https://videojs.com/html5-video-support/" target="_blank">soporte video
+                                            HTML5</a>
+                                    </p>
+                                </video>
+                            </div>
                         @endif
                     </div>
                     <div class="details_content">
                         <ul class="meta_info_list unordered_list">
-
-                            <li><a href="#!"><i class="fas fa-thumbtack"></i> <span>Sticky Post</span></a></li>
+                            <li>
+                                @foreach ($post->tags as $tag)
+                                    <a href="#!">
+                                        <i class="fas fa-thumbtack"></i> <span>{{ $tag->name }}</span>
+                                    </a>
+                                @endforeach
+                            </li>
 
                             <li><a href="#!"><i class="fas fa-user"></i> <span>{{ $post->user->name }}</span></a>
                             </li>
                             <li><a href="#!"><i class="fas fa-calendar-day"></i>
-                                    <span>{{ $post->created_at->format('M d, Y') }}</span></a>
+                                    <span>{{ $post->created_at->format('d M, Y') }}</span></a>
                             </li>
                         </ul>
-                        <p>{!! $post->content !!}</p>
-                        
+                        <div class="text-justify">
+                            {!! $post->content !!}
+                        </div>
                         <div class="row">
                             <div class="col col-lg-6">
                                 <ul class="item_category_list unordered_list">
-                                    <li><a href="#!">Photography</a></li>
-                                    <li><a href="#!">Technology</a></li>
-                                    <li><a href="#!">Programming</a></li>
+                                    <li><a href="#!">{{ $post->category->name }}</a></li>
                                 </ul>
                             </div>
                             <div class="col col-lg-6 d-lg-flex justify-content-lg-end">
@@ -416,4 +437,84 @@
             </div>
         </div>
     </section>
+    @push('styles')
+        <style>
+            .video-container {
+                position: relative;
+                width: 100%;
+                margin: 20px 0;
+                overflow: hidden;
+                border-radius: 8px;
+                background: #000;
+            }
+
+            .video-container video {
+                width: 100%;
+                height: auto;
+                display: block;
+                max-height: 600px;
+            }
+
+            .video-js {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 16/9;
+            }
+
+            .vjs-big-play-button {
+                background-color: rgba(0, 0, 0, 0.5) !important;
+            }
+
+            .vjs-big-play-button:hover {
+                background-color: rgba(0, 0, 0, 0.7) !important;
+            }
+        </style>
+    @endpush
+    @push('scripts')
+        <!-- Video.js CSS -->
+        <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+
+        <!-- Video.js JavaScript -->
+        <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Inicializar Video.js
+                var player = videojs('player', {
+                    controls: true,
+                    autoplay: false,
+                    preload: 'metadata',
+                    fluid: true,
+                    playbackRates: [0.5, 1, 1.5, 2],
+                    controlBar: {
+                        children: [
+                            'playToggle',
+                            'volumePanel',
+                            'progressControl',
+                            'currentTimeDisplay',
+                            'timeDivider',
+                            'durationDisplay',
+                            'playbackRateMenuButton',
+                            'fullscreenToggle'
+                        ]
+                    }
+                });
+
+                // Manejar errores de carga
+                player.on('error', function() {
+                    console.error('Error al cargar el video');
+                    var errorMessage = document.createElement('div');
+                    errorMessage.className = 'vjs-error-display';
+                    errorMessage.innerHTML = 'Error al cargar el video. Por favor, intenta nuevamente.';
+                    player.el().appendChild(errorMessage);
+                });
+
+                // Optimizar para dispositivos móviles
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    player.fluid(true);
+                    player.width('100%');
+                }
+            });
+        </script>
+    @endpush
 </x-frontend.web-layout>

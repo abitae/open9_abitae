@@ -22,7 +22,9 @@ class Post extends Model
         'status',
         'user_id',
         'category_id',
-        'published_at',
+        'image_path',
+        'video_path',
+        'is_active',
     ];
 
     protected $casts = [
@@ -47,16 +49,6 @@ class Post extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
-    }
-
-    public function images(): HasMany
-    {
-        return $this->hasMany(PostImage::class);
-    }
-
-    public function videos(): HasMany
-    {
-        return $this->hasMany(PostVideo::class);
     }
 
     protected static function boot()

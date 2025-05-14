@@ -44,7 +44,7 @@ class PostManagement extends Component
 
     public function render()
     {
-        $query = Post::with(['category', 'tags', 'images', 'videos'])
+        $query = Post::with(['category', 'tags'])
             ->latest();
 
         if ($this->search) {
@@ -84,17 +84,14 @@ class PostManagement extends Component
             if ($post->status === 'published') {
                 $post->update([
                     'status' => 'draft',
-                    'published_at' => null,
                 ]);
             } elseif ($post->status === 'draft') {
                 $post->update([
                     'status' => 'published',
-                    'published_at' => now(),
                 ]);
             } elseif ($post->status === 'archived') {
                 $post->update([
                     'status' => 'published',
-                    'published_at' => now(),
                 ]);
             }
         }

@@ -22,9 +22,4 @@ class BlogController extends Controller
     {
         return view('frontend.post', compact('post'));
     }
-
-    public function postDetails(Post $post)
-    {
-        return view('frontend.blog-detalle', compact('post'));
-    }
 }

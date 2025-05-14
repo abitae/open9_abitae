@@ -1,5 +1,4 @@
 <div class="relative h-full flex-1 overflow-hidden rounded-xl border border-neutral-200 dark:border-neutral-700 p-6">
-
     <div class="flex justify-between items-center mb-6">
         <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Blog Posts</h2>
         <flux:button wire:click="redirectToForm()" color="primary">

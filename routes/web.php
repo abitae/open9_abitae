@@ -37,7 +37,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/admin/blog', PostManagement::class)->name('admin.blog');
     Route::get('/admin/blog/form/{id?}', PostForm::class)->name('admin.blog.form');
-    Route::get('/blog/{post}', [BlogController::class, 'postDetails'])->name('frontend.post.details');
     Route::get('/admin/blog/categories', CategoryBlog::class)->name('admin.blog.categories');
     Route::get('/admin/blog/tags', TagBlog::class)->name('admin.blog.tags');
 
