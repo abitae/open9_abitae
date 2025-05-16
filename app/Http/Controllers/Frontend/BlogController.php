@@ -3,23 +3,18 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Blog\Category;
 use App\Models\Blog\Post;
-use App\Models\Blog\Tag;
-use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
     public function blog()
     {
-        $tags = Tag::all();
-        $posts = Post::where('status', 'published')->paginate(6);
-        $categories = Category::all();
-        return view('frontend.blog', compact('posts', 'tags', 'categories'));
+        return view('frontend.blog');
     }
 
-    public function post(Post $post)
+    public function post($slug)
     {
+        $post = Post::where('slug', $slug)->firstOrFail();
         return view('frontend.post', compact('post'));
     }
 }

@@ -21,7 +21,7 @@ Route::get('/', function () {
 Route::get('/index', [HomeController::class, 'index'])->name('frontend.index');
 Route::get('/course', [CourseController::class, 'courses'])->name('frontend.course');
 Route::get('/blog', [BlogController::class, 'blog'])->name('frontend.blog');
-Route::get('/blog/{post}', [BlogController::class, 'post'])->name('frontend.post');
+Route::get('/blog/{slug}', [BlogController::class, 'post'])->name('frontend.post');
 
 Route::view('dashboard', 'dashboard')
     ->middleware(['auth', 'verified'])

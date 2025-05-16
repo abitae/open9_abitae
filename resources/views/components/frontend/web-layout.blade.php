@@ -7,7 +7,10 @@
     <title>Open9</title>
     <link rel="shortcut icon" href="{{ asset('collab/assets/images/logo/favourite_icon_1.svg') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('collab/assets/css/style.css') }}">
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=inter:400,500,600&display=swap" rel="stylesheet" />
     @stack('styles')
+
 </head>
 
 <body>
@@ -20,6 +23,7 @@
         @include('frontend.partials.footer')
     </div>
     <script src="{{ asset('collab/assets/js/script.js') }}"></script>
+
 </body>
 @stack('scripts')
 </html>

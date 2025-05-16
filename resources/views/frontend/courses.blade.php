@@ -5,18 +5,17 @@
                 <div class="row align-items-center">
                     <div class="col col-lg-6">
                         <ul class="breadcrumb_nav unordered_list">
-                            <li><a href="index.html">Home</a></li>
-                            <li>Courses</li>
+                            <li><a href="{{ route('frontend.index') }}">Home</a></li>
+                            <li>Cursos</li>
                         </ul>
-                        <h1 class="page_title">Course List</h1>
-                        <p class="page_description">Egestas sed tempus urna et pharetra. Leo integer malesuada
-                            nunc vel. Libero id faucibus nisl tincidunt eget nullam non nisi. Faucibus turpis in
-                            eu mi bibendum neque egestas</p>
+                        <h1 class="page_title">Cursos</h1>
+                        <p class="page_description">En esta sección encontrarás todos los cursos disponibles en nuestra
+                            plataforma.</p>
                         <form action="#">
                             <div class="form_item mb-0"><input type="search" name="search"
-                                    placeholder="What do you want to learn ?"> <button type="submit"
-                                    class="btn btn_dark"><span><small>Search</small>
-                                        <small>Search</small></span></button></div>
+                                    placeholder="¿Qué quieres aprender?"> <button type="submit"
+                                    class="btn btn_dark"><span><small>Buscar</small>
+                                        <small>Buscar</small></span></button></div>
                         </form>
                     </div>
                 </div>
